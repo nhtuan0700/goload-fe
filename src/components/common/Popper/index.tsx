@@ -10,8 +10,7 @@ type Axis = {
 
 interface PopperProps {
   anchorEl?: HTMLElement | null
-  open?: boolean
-  onClose: () => void
+  open: boolean // need to consider to remove
   anchorOrigin?: Axis
   transformOrigin?: Axis
   children: ReactNode
@@ -189,11 +188,28 @@ export const Popper = (props: PopperProps) => {
     setPosition({ top, left })
   }, [currentElmRef.current, anchorEl])
 
+  useEffect(() => {
+    if (!anchorEl) {
+      return
+    }
+
+    const hideElement = () => {
+      // click again to turn off
+      anchorEl?.click()
+    }
+
+    document.addEventListener('click', hideElement)
+
+    return () => {
+      document.removeEventListener('click', hideElement)
+    }
+  }, [anchorEl])
+
   if (!anchorEl) {
     return null
   }
 
-  return (
+  return props.open ? (
     <div
       className="bg-red-300 p-2 w-[150px]"
       ref={currentElmRef}
@@ -201,5 +217,7 @@ export const Popper = (props: PopperProps) => {
     >
       {props.children}
     </div>
+  ) : (
+    <></>
   )
 }

@@ -6,14 +6,27 @@ const config: Config = {
     extend: {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
-        primary: '#fe6a0d',
-        text: {
-          black: '#0f374e'
+        primary: {
+          DEFAULT: '#fe6a0d',
+          accent: '#fe6a0dcc'
         },
-        accent: {},
+        secondary: '#80C4E9',
+        black: {
+          DEFAULT: '#0f374e',
+        },
+        gray: {
+          DEFAULT: '#f3f4f6',
+          100: '#f3f4f6',
+          200: '#d3d3d3',
+          300: '#9d9d9d',
+        },
+        red: {
+          DEFAULT: '#FF6D6D',
+        }
       },
     },
   },

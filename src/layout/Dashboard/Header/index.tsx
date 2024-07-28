@@ -1,4 +1,4 @@
-import { IconButton } from '@/components/IconButton'
+import { IconButton } from '@/components/common/IconButton'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 
 export const Header = () => {

@@ -1,14 +1,21 @@
 import type { NextRequest } from 'next/server'
- 
+
 export function middleware(request: NextRequest) {
-  // const currentUser = request.cookies.get('currentUser')?.value
-  // console.log(123)
-  // if (currentUser && !request.nextUrl.pathname.startsWith('/dashboard')) {
-  //   return Response.redirect(new URL('/dashboard', request.url))
+  // const authRoutes = ['/login', '/register']
+
+  // const checkIsAuthRoute = () => {
+  //   return authRoutes.some((route) => {
+  //     return request.nextUrl.pathname.startsWith(route)
+  //   })
   // }
- 
-  // if (!currentUser && !request.nextUrl.pathname.startsWith('/login')) {
-  //   return Response.redirect(new URL('/login1', request.url))
+
+  // const currentUser = request.cookies.get('currentUser')?.value
+  // if (currentUser && checkIsAuthRoute()) {
+  //   return Response.redirect(new URL('/', request.url))
+  // }
+
+  // if (!currentUser && !checkIsAuthRoute()) {
+  //   return Response.redirect(new URL('/login', request.url))
   // }
 }
 
