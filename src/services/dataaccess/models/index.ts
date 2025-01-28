@@ -10,5 +10,7 @@ export * from './GoLoadCreateSessionResponse';
 export * from './GoLoadDownloadStatus';
 export * from './GoLoadDownloadTask';
 export * from './GoLoadDownloadType';
+export * from './GoLoadGetDownloadTaskListRequest';
+export * from './GoLoadGetDownloadTaskListResponse';
 export * from './ProtobufAny';
 export * from './RpcStatus';

@@ -12,9 +12,13 @@ const config: Config = {
       colors: {
         primary: {
           DEFAULT: '#fe6a0d',
-          accent: '#fe6a0dcc'
+          accent: '#fe6a0dcc',
+          light: '#FF924E',
         },
-        secondary: '#80C4E9',
+        secondary: {
+          DEFAULT: '#80C4E9',
+          accent: '#AAE1FF',
+        },
         black: {
           DEFAULT: '#0f374e',
         },
@@ -26,7 +30,7 @@ const config: Config = {
         },
         red: {
           DEFAULT: '#FF6D6D',
-        }
+        },
       },
     },
   },

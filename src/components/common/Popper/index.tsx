@@ -14,10 +14,11 @@ interface PopperProps {
   anchorOrigin?: Axis
   transformOrigin?: Axis
   children: ReactNode
+  className: string
 }
 
 export const Popper = (props: PopperProps) => {
-  const { anchorOrigin, transformOrigin, anchorEl } = props
+  const { anchorOrigin, transformOrigin, anchorEl, className = '' } = props
   const currentElmRef = useRef<HTMLDivElement | null>(null)
   const [position, setPosition] = useState({
     top: 0,
@@ -79,7 +80,6 @@ export const Popper = (props: PopperProps) => {
                 currentElBound.height
               break
             case 'center':
-              console.log(currentElBound.height)
               top =
                 anchorElBound.top +
                 anchorElBound.height / 2 -
@@ -153,7 +153,6 @@ export const Popper = (props: PopperProps) => {
                 currentElBound.width
               break
             case 'center':
-              console.log(123)
               left =
                 anchorElBound.left +
                 anchorElBound.width / 2 -
@@ -211,7 +210,7 @@ export const Popper = (props: PopperProps) => {
 
   return props.open ? (
     <div
-      className="bg-red-300 p-2 w-[150px]"
+      className={`bg-white p-3 min-w-[200px] rounded-md shadow-md z-10 ${className}`}
       ref={currentElmRef}
       style={{ position: 'fixed', ...position }}
     >

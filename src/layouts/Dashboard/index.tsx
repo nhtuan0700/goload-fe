@@ -1,5 +1,5 @@
-import { Header } from '@/layout/Dashboard/Header'
-import { Sidebar } from '@/layout/Dashboard/Sidebar'
+import { Header } from '@/layouts/Dashboard/Header'
+import { Sidebar } from '@/layouts/Dashboard/Sidebar'
 import { ReactNode } from 'react'
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
@@ -12,7 +12,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
       <div className="flex-grow h-full flex flex-col">
         <Header />
         <div className="bg-gray w-full flex-grow overflow-auto p-5">
-          <div className='bg-white w-full h-full rounded-xl p-4 drop-shadow-lg'>{children}</div>
+          <div className='bg-white w-full h-full rounded-xl p-8 drop-shadow-lg'>{children}</div>
         </div>
       </div>
     </div>

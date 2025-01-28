@@ -26,6 +26,7 @@ export const Input = ({
 
     return (
       <button
+        type="button"
         onClick={toggleShowPassword}
         className="text-xl absolute right-2 top-3 transition-all text-gray-200"
       >

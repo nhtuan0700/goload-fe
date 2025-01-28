@@ -20,3 +20,27 @@
 ::-webkit-scrollbar-thumb:hover {
   /* background: #555; Thumb background on hover */
 }
+
+
+h1 {
+  @apply text-3xl
+}
+
+h2 {
+  @apply text-2xl
+}
+
+thead {
+  @apply font-bold
+}
+
+table tbody tr {
+  @apply hover:bg-slate-100 cursor-pointer transition
+}
+table tr:not(:last-child) {
+  @apply border-b-[1px] ;
+}
+
+td {
+  @apply px-2 py-3;
+}

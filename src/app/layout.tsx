@@ -1,3 +1,4 @@
+import Global from '@/layouts/Global'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} text-black bg-gray-100 text-md`}>{children}</body>
+      <body className={`${inter.className} text-black bg-gray-100 text-md`}>
+        <Global>{children}</Global>
+      </body>
     </html>
   )
 }

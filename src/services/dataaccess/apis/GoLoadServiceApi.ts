@@ -21,6 +21,8 @@ import type {
   GoLoadCreateDownloadTaskResponse,
   GoLoadCreateSessionRequest,
   GoLoadCreateSessionResponse,
+  GoLoadGetDownloadTaskListRequest,
+  GoLoadGetDownloadTaskListResponse,
   RpcStatus,
 } from '../models/index';
 import {
@@ -36,6 +38,10 @@ import {
     GoLoadCreateSessionRequestToJSON,
     GoLoadCreateSessionResponseFromJSON,
     GoLoadCreateSessionResponseToJSON,
+    GoLoadGetDownloadTaskListRequestFromJSON,
+    GoLoadGetDownloadTaskListRequestToJSON,
+    GoLoadGetDownloadTaskListResponseFromJSON,
+    GoLoadGetDownloadTaskListResponseToJSON,
     RpcStatusFromJSON,
     RpcStatusToJSON,
 } from '../models/index';
@@ -50,6 +56,10 @@ export interface GoLoadServiceCreateDownloadTaskRequest {
 
 export interface GoLoadServiceCreateSessionRequest {
     body: GoLoadCreateSessionRequest;
+}
+
+export interface GoLoadServiceGetDownloadTaskListRequest {
+    body: GoLoadGetDownloadTaskListRequest;
 }
 
 /**
@@ -156,6 +166,40 @@ export class GoLoadServiceApi extends runtime.BaseAPI {
      */
     async goLoadServiceCreateSession(requestParameters: GoLoadServiceCreateSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GoLoadCreateSessionResponse> {
         const response = await this.goLoadServiceCreateSessionRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async goLoadServiceGetDownloadTaskListRaw(requestParameters: GoLoadServiceGetDownloadTaskListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GoLoadGetDownloadTaskListResponse>> {
+        if (requestParameters['body'] == null) {
+            throw new runtime.RequiredError(
+                'body',
+                'Required parameter "body" was null or undefined when calling goLoadServiceGetDownloadTaskList().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/go_load.GoLoadService/GetDownloadTaskList`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: GoLoadGetDownloadTaskListRequestToJSON(requestParameters['body']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GoLoadGetDownloadTaskListResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async goLoadServiceGetDownloadTaskList(requestParameters: GoLoadServiceGetDownloadTaskListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GoLoadGetDownloadTaskListResponse> {
+        const response = await this.goLoadServiceGetDownloadTaskListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

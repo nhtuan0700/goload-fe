@@ -1,0 +1,12 @@
+.pagination {
+  @apply flex justify-between mt-2 items-center;
+}
+
+.pagination .item {
+  @apply mx-1 border w-10 h-10 flex justify-center items-center rounded-md hover:bg-blue-50 transition cursor-pointer;
+}
+
+
+.pagination .item.active {
+  @apply bg-blue-400 text-white
+}
