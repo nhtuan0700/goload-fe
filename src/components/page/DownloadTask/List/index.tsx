@@ -2,68 +2,38 @@
 
 import { Button } from '@/components/common/Button'
 import Pagination from '@/components/common/Pagination'
-import { useAlert } from '@/hooks/useAlert'
+import { useDeleteDownloadTask } from '@/hooks/query/useDeleteDownloadTask'
+import { useDownloadTasks } from '@/hooks/query/useDownloadTasks'
 import { usePagination } from '@/hooks/usePagniation'
-import { getErrorMessage } from '@/services/api'
-import {
-  deleteDownloadTask,
-  getDownloadTaskList,
-} from '@/services/api/downloadTask'
-import { GoLoadGetDownloadTaskListResponse } from '@/services/dataaccess'
 import { loadingState } from '@/store/loading'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { useSetRecoilState } from 'recoil'
 
 export default function DownloadTaskListPage() {
-  const [downloadListData, setDownloadTaskListData] =
-    useState<GoLoadGetDownloadTaskListResponse>()
   const router = useRouter()
   const pageLimit = 10
   const { offset } = usePagination(pageLimit)
-  const searchParams = useSearchParams()
-  const { setAlertError, setAlertSuccess } = useAlert()
   const setLoading = useSetRecoilState(loadingState)
-
-  const fetchDownloadTaskList = async () => {
-    const data = await getDownloadTaskList({
-      limit: String(pageLimit),
-      offset: String(offset),
-    })
-    setDownloadTaskListData(data)
-  }
+  const { data: downloadTaskListData, isFetched } = useDownloadTasks({
+    limit: String(pageLimit),
+    offset: String(offset),
+  })
+  const { mutate } = useDeleteDownloadTask()
 
   useEffect(() => {
-    ;(async function () {
-      try {
-        setLoading(true)
-        await fetchDownloadTaskList()
-      } catch (error) {
-        const message = await getErrorMessage(await error)
-        setAlertError(message)
-      } finally {
-        setLoading(false)
-      }
-    })()
-  }, [searchParams])
+    if (isFetched) {
+      setLoading(false)
+    } else {
+      setLoading(true)
+    }
+  }, [isFetched])
 
   const onHandleDelete = async (downloadTaskId?: string) => {
     if (!downloadTaskId) {
       return
     }
-    try {
-      setLoading(true)
-      await deleteDownloadTask({
-        downloadTaskId,
-      })
-      await fetchDownloadTaskList()
-      setAlertSuccess('delete sucessfully')
-    } catch (error) {
-      const message = await getErrorMessage(await error)
-      setAlertError(message)
-    } finally {
-      setLoading(false)
-    }
+    mutate({ downloadTaskId: downloadTaskId })
   }
 
   return (
@@ -85,7 +55,7 @@ export default function DownloadTaskListPage() {
             </tr>
           </thead>
           <tbody>
-            {downloadListData?.downloadTaskList?.map((item, i) => (
+            {downloadTaskListData?.downloadTaskList?.map((item, i) => (
               <tr key={i}>
                 <td>{item.id}</td>
                 <td>{item.url}</td>
@@ -109,8 +79,8 @@ export default function DownloadTaskListPage() {
           </tbody>
         </table>
         <Pagination
-          totalRow={Number(downloadListData?.totalCount)}
-          totalPage={Math.ceil(Number(downloadListData?.totalCount) / 10)}
+          totalRow={Number(downloadTaskListData?.totalCount)}
+          totalPage={Math.ceil(Number(downloadTaskListData?.totalCount) / 10)}
         />
       </div>
     </>

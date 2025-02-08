@@ -3,8 +3,7 @@
 import { Button } from '@/components/common/Button'
 import { Input } from '@/components/common/Input'
 import { Select } from '@/components/common/Select'
-import { useAlert } from '@/hooks/useAlert'
-import { createDownloadTask } from '@/services/api/downloadTask'
+import { useCreateDownloadTask } from '@/hooks/query/useCreateDownloadTask'
 import {
   GoLoadCreateDownloadTaskRequest,
   GoLoadDownloadType,
@@ -24,16 +23,11 @@ export default function DownloadTaskCreatePage() {
     url: '',
   })
   const router = useRouter()
-  const { setAlertError, setAlertSuccess } = useAlert()
+  const { mutate: createDownloadTask } = useCreateDownloadTask()
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    try {
-      await createDownloadTask(formData)
-      setAlertSuccess('Create download successfully!')
-    } catch (error) {
-      setAlertError('Failed to create!')
-    }
+    createDownloadTask(formData)
   }
 
   const onChangeForm = (
