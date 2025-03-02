@@ -29,6 +29,7 @@ import type {
   GoLoadUpdateDownloadTaskResponse,
   RpcStatus,
   StreamResultOfGoLoadGetDownloadTaskFileResponse,
+  StreamResultOfGoLoadStreamResponse,
 } from '../models/index';
 import {
     GoLoadCreateAccountRequestFromJSON,
@@ -59,6 +60,8 @@ import {
     RpcStatusToJSON,
     StreamResultOfGoLoadGetDownloadTaskFileResponseFromJSON,
     StreamResultOfGoLoadGetDownloadTaskFileResponseToJSON,
+    StreamResultOfGoLoadStreamResponseFromJSON,
+    StreamResultOfGoLoadStreamResponseToJSON,
 } from '../models/index';
 
 export interface GoLoadServiceCreateAccountRequest {
@@ -83,6 +86,10 @@ export interface GoLoadServiceGetDownloadTaskFileRequest {
 
 export interface GoLoadServiceGetDownloadTaskListRequest {
     body: GoLoadGetDownloadTaskListRequest;
+}
+
+export interface GoLoadServiceStreamDataRequest {
+    message?: string;
 }
 
 export interface GoLoadServiceUpdateDownloadTaskRequest {
@@ -295,6 +302,34 @@ export class GoLoadServiceApi extends runtime.BaseAPI {
      */
     async goLoadServiceGetDownloadTaskList(requestParameters: GoLoadServiceGetDownloadTaskListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GoLoadGetDownloadTaskListResponse> {
         const response = await this.goLoadServiceGetDownloadTaskListRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async goLoadServiceStreamDataRaw(requestParameters: GoLoadServiceStreamDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<StreamResultOfGoLoadStreamResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['message'] != null) {
+            queryParameters['message'] = requestParameters['message'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/v1/stream`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => StreamResultOfGoLoadStreamResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async goLoadServiceStreamData(requestParameters: GoLoadServiceStreamDataRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<StreamResultOfGoLoadStreamResponse> {
+        const response = await this.goLoadServiceStreamDataRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

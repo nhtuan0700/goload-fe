@@ -1,11 +1,13 @@
 import {
   Configuration,
+  ErrorContext,
   FetchError,
   FetchParams,
   GoLoadServiceApi,
   Middleware,
   RequestContext,
   RequiredError,
+  ResponseContext,
   ResponseError,
   RpcStatus,
 } from '@/services/dataaccess'
@@ -25,18 +27,22 @@ export const middleware = (): Middleware => ({
       init: context.init,
     })
   },
-  // post: (context: ResponseContext): Promise<Response | void> => {
-  //   console.log(context.response)
-  //   if (context.response.status >= 400) {
-  //     return Promise.reject(
-  //       new ResponseError(context.response, 'Response returned an error code 1')
-  //     )
-  //   }
-  //   return Promise.resolve(context.response)
-  // },
-  // onError: (context: ErrorContext): Promise<Response | void> => {
-  //   return Promise.resolve(context.response)
-  // },
+  post: (context: ResponseContext): Promise<Response | void> => {
+    if (context.response.status >= 400) {
+      switch (context.response.status) {
+        case 401:
+          window.location.href = "/login"
+      }
+
+      return Promise.reject(
+        new ResponseError(context.response, 'Response returned an error code 1')
+      )
+    }
+    return Promise.resolve(context.response)
+  },
+  onError: (context: ErrorContext): Promise<Response | void> => {
+    return Promise.resolve(context.response)
+  },
 })
 
 export const buildClient = () => {
